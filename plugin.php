@@ -52,11 +52,11 @@ function referrer_redirect_location( $location, $code ) {
         $query_params = array(
             'pk_campaign' => 'share'
         );
-        if($requested_locale) {
-            $query_params['locale'] = $requested_locale;
-        }
         if($tracking_campaign) {
             $query_params['pk_kwd'] = $tracking_campaign;
+        }
+        if($requested_locale) {
+            $query_params['locale'] = $requested_locale;
         }
         $query_clue = strpos($location, '?') === false ? '?' : '&';
         return $location . $query_clue . http_build_query($query_params);
