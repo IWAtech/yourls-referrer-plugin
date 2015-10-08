@@ -11,7 +11,7 @@ Author URI: http://github.com/kl4n4
 // No direct call
 if( !defined( 'YOURLS_ABSPATH' ) ) die();
 
-define('KEYWORD_REGEX', "/(at|de|us)\\/(.*)/i");
+define('KEYWORD_REGEX', "/(at|de|us)-([a-z0-9-]{8})/i");
 define('LOCATION_REGEX', "/updatemi.com/i");
 define('REFERRER_REGEX', "/(facebook).com|(twitter).com/i");
 
@@ -26,10 +26,6 @@ function referrer_get_locale_string($locale_short) {
         return 'en_' . $country_code;
     }
     return null;
-}
-
-function referrer_slash_in_charset( $in ) {
-    return $in.'/';
 }
 
 function referrer_sanitize_string( $valid, $string ) {
@@ -63,8 +59,6 @@ function referrer_redirect_location( $location, $code ) {
     }
     return $location;
 }
-
-yourls_add_filter( 'get_shorturl_charset', 'referrer_slash_in_charset' );
 
 yourls_add_filter( 'sanitize_string', 'referrer_sanitize_string' );
 yourls_add_filter( 'redirect_location', 'referrer_redirect_location' );
