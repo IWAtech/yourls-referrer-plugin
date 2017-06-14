@@ -30,9 +30,9 @@ function referrer_get_locale_string($locale_short) {
 
 function referrer_sanitize_string( $valid, $string ) {
     global $requested_locale;
-    if(preg_match(KEYWORD_REGEX, $valid, $matches) > 0) {
-        $requested_locale = referrer_get_locale_string(@$matches[1]);
-        return @$matches[2];
+    if(preg_match(KEYWORD_REGEX, $valid, $matches) > 0 && count($matches) >= 3) {
+        $requested_locale = referrer_get_locale_string($matches[1]);
+        return $matches[2];
     }
     return $valid;
 }
@@ -41,8 +41,8 @@ function referrer_redirect_location( $location, $code ) {
     global $requested_locale, $tracking_campaign;
     if(strpos($location, 'updatemi.com/') !== false) {
         if($_SERVER['HTTP_REFERER'] && preg_match(REFERRER_REGEX, $_SERVER['HTTP_REFERER'], $matches) > 0) {
-            if(!empty(@$matches[1])) {
-                $tracking_campaign = @$matches[1];
+            if(array_key_exists(1, $matches) && !empty($matches[1])) {
+                $tracking_campaign = $matches[1];
             }
         }
         $query_params = array(
